@@ -1,11 +1,13 @@
 import React from "react";
+import "../styles/Navbar.css";
 
 const Navbar = () => {
   return (
-    <nav>
-      <h2>Sorting Visualizer</h2>
+    <nav className="navbar">
+      <h1>Algorithm Visualizer</h1>
     </nav>
   );
 };
 
 export default Navbar;
+

@@ -1,12 +1,14 @@
 import React from "react";
 import "./styles/App.css";
+import "./styles/Navbar.css";
 import Navbar from "./components/Navbar";
+import SortingVisualizer from "./components/SortingVisualizer";
 
 function App() {
   return (
     <div className="App">
       <Navbar />
-      <h1>Sorting Visualizer</h1>
+      <SortingVisualizer />
     </div>
   );
 }
