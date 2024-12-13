@@ -1,4 +1,5 @@
 import React, { useState, useRef } from "react";
+import Navbar from "./Navbar";
 import { bubbleSort } from "../algorithms/bubbleSort";
 import "../styles/SortingVisualizer.css";
 
@@ -9,11 +10,11 @@ const SortingVisualizer = () => {
   const timeoutIds = useRef([]);
 
   const generateRandomArray = () => {
-    if (isSorting) return; // Prevent generating a new array during sorting
+    if (isSorting) return;
 
     const allBars = document.getElementsByClassName("bar");
     for (let i = 0; i < allBars.length; i++) {
-      allBars[i].style.backgroundColor = "#96f2d7"; // Reset bar colors
+      allBars[i].style.backgroundColor = "#96f2d7";
     }
     const newArray = Array.from({ length: 10 }, () =>
       Math.floor(Math.random() * 700 + 10)
@@ -37,7 +38,7 @@ const SortingVisualizer = () => {
     if (isSortedArray(array)) {
       const allBars = document.getElementsByClassName("bar");
       for (let i = 0; i < allBars.length; i++) {
-        allBars[i].style.backgroundColor = "#228be6"; // Blue for sorted
+        allBars[i].style.backgroundColor = "#228be6";
       }
       console.log("Array is already sorted!");
       return;
@@ -49,7 +50,7 @@ const SortingVisualizer = () => {
     animateSorting(animations, () => {
       setIsSorting(false);
       setIsSorted(true);
-    }); 
+    });
   };
 
   const animateSorting = (animations, onComplete) => {
@@ -95,23 +96,22 @@ const SortingVisualizer = () => {
   };
 
   const stopSorting = () => {
-    timeoutIds.current.forEach((id) => clearTimeout(id)); // Clear all timeouts
+    timeoutIds.current.forEach((id) => clearTimeout(id));
     timeoutIds.current = [];
-    setIsSorting(false); // Reset sorting state
+    setIsSorting(false);
     console.log("Sorting stopped.");
   };
 
   return (
     <div className="sorting-visualizer">
-      <button onClick={generateRandomArray} disabled={isSorting}>
-        Generate New Array
-      </button>
-      <button onClick={startBubbleSort} disabled={isSorting || isSorted}>
-        Bubble Sort
-      </button>
-      <button onClick={stopSorting} disabled={!isSorting}>
-        Stop Sorting
-      </button>
+      <Navbar
+        generateRandomArray={generateRandomArray}
+        startBubbleSort={startBubbleSort}
+        stopSorting={stopSorting}
+        isSorting={isSorting}
+        isSorted={isSorted}
+      />
+      <br></br>
       <div className="array-container">
         {array.map((value, idx) => (
           <div className="bar" key={idx} style={{ height: `${value}px` }}></div>
@@ -122,6 +122,4 @@ const SortingVisualizer = () => {
 };
 
 export default SortingVisualizer;
-
-
 
