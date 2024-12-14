@@ -5,23 +5,30 @@ import "../styles/SortingVisualizer.css";
 
 const SortingVisualizer = () => {
   const [array, setArray] = useState([]);
+  const [arraySize, setArraySize] = useState(30); // Default array size
+  const [sortingSpeed, setSortingSpeed] = useState(100); // Default sorting speed
   const [isSorting, setIsSorting] = useState(false);
   const [isSorted, setIsSorted] = useState(false);
   const timeoutIds = useRef([]);
 
   const generateRandomArray = () => {
-    if (isSorting) return;
+    // Stop all ongoing animations and reset
+    timeoutIds.current.forEach((id) => clearTimeout(id)); // Clear all timeouts
+    timeoutIds.current = [];
+    setIsSorting(false);
+    setIsSorted(false);
 
+    // Reset the bar colors
     const allBars = document.getElementsByClassName("bar");
     for (let i = 0; i < allBars.length; i++) {
       allBars[i].style.backgroundColor = "#96f2d7";
     }
-    const newArray = Array.from({ length: 10 }, () =>
+
+    // Generate a new random array
+    const newArray = Array.from({ length: arraySize }, () =>
       Math.floor(Math.random() * 700 + 10)
     );
     setArray(newArray);
-    setIsSorting(false);
-    setIsSorted(false);
   };
 
   const isSortedArray = (array) => {
@@ -38,7 +45,7 @@ const SortingVisualizer = () => {
     if (isSortedArray(array)) {
       const allBars = document.getElementsByClassName("bar");
       for (let i = 0; i < allBars.length; i++) {
-        allBars[i].style.backgroundColor = "#228be6";
+        allBars[i].style.backgroundColor = "#228be6"; // Set sorted color
       }
       console.log("Array is already sorted!");
       return;
@@ -62,7 +69,7 @@ const SortingVisualizer = () => {
           const [barOneIdx, barTwoIdx] = indices;
           const barOne = document.getElementsByClassName("bar")[barOneIdx];
           const barTwo = document.getElementsByClassName("bar")[barTwoIdx];
-          barOne.style.backgroundColor = "#ff6b6b";
+          barOne.style.backgroundColor = "#ff6b6b"; // Red for comparison
           barTwo.style.backgroundColor = "#ff6b6b";
         } else if (type === "swap") {
           const [barOneIdx, barTwoIdx] = indices;
@@ -71,19 +78,19 @@ const SortingVisualizer = () => {
           const barTwo = document.getElementsByClassName("bar")[barTwoIdx];
           barOne.style.height = `${heightOne}px`;
           barTwo.style.height = `${heightTwo}px`;
-          barOne.style.backgroundColor = "#da77f2";
+          barOne.style.backgroundColor = "#da77f2"; // Purple for swap
           barTwo.style.backgroundColor = "#da77f2";
         } else if (type === "restore") {
           const [barOneIdx, barTwoIdx] = indices;
           const barOne = document.getElementsByClassName("bar")[barOneIdx];
           const barTwo = document.getElementsByClassName("bar")[barTwoIdx];
-          barOne.style.backgroundColor = "#96f2d7";
+          barOne.style.backgroundColor = "#96f2d7"; // Reset to teal
           barTwo.style.backgroundColor = "#96f2d7";
         } else if (type === "sorted") {
           const bar = document.getElementsByClassName("bar")[sortedIndex];
-          bar.style.backgroundColor = "#228be6";
+          bar.style.backgroundColor = "#228be6"; // Blue for sorted
         }
-      }, index * 100);
+      }, index * sortingSpeed);
 
       timeoutIds.current.push(timeoutId);
     });
@@ -91,15 +98,8 @@ const SortingVisualizer = () => {
     const completeTimeout = setTimeout(() => {
       timeoutIds.current = [];
       onComplete();
-    }, animations.length * 100);
+    }, animations.length * sortingSpeed);
     timeoutIds.current.push(completeTimeout);
-  };
-
-  const stopSorting = () => {
-    timeoutIds.current.forEach((id) => clearTimeout(id));
-    timeoutIds.current = [];
-    setIsSorting(false);
-    console.log("Sorting stopped.");
   };
 
   return (
@@ -107,11 +107,14 @@ const SortingVisualizer = () => {
       <Navbar
         generateRandomArray={generateRandomArray}
         startBubbleSort={startBubbleSort}
-        stopSorting={stopSorting}
+        resetPage={generateRandomArray} // Reset logic handled by generateRandomArray
         isSorting={isSorting}
         isSorted={isSorted}
+        arraySize={arraySize}
+        setArraySize={setArraySize}
+        sortingSpeed={sortingSpeed}
+        setSortingSpeed={setSortingSpeed}
       />
-      <br></br>
       <div className="array-container">
         {array.map((value, idx) => (
           <div className="bar" key={idx} style={{ height: `${value}px` }}></div>
