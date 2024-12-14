@@ -1,6 +1,81 @@
 .navbar {
-  background-color: lightskyblue;
-  color: whitesmoke;
-  padding: 1rem;
-  text-align: start;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: #007bff;
+  padding: 15px 30px;
+  color: white;
+  width: 100%;
+  box-sizing: border-box;
 }
+
+.navbar h1 {
+  font-size: 24px;
+  margin: 0;
+}
+
+.center-buttons {
+  display: flex;
+  gap: 10px;
+}
+
+.right-container {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+
+.slider-container {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.slider-container label {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  font-size: 14px;
+  color: white;
+}
+
+.slider-container span {
+  font-size: 12px;
+  margin-top: 5px;
+}
+
+.slider-container input[type="range"] {
+  margin-top: 5px;
+  width: 150px;
+}
+
+.right-container button {
+  padding: 10px 15px;
+  font-size: 14px;
+  color: white;
+  background-color: #0056b3;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.right-container button:disabled {
+  background-color: #999;
+  cursor: not-allowed;
+}
+
+.center-buttons button {
+  padding: 10px 15px;
+  font-size: 14px;
+  color: white;
+  background-color: #0056b3;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.center-buttons button:disabled {
+  background-color: #999;
+  cursor: not-allowed;
+}
+
